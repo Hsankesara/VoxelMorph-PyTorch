@@ -4,6 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.autograd import Variable
+import numpy as np
 torch.manual_seed(42)
 torch.cuda.manual_seed(42)
 use_gpu = torch.cuda.is_available()
@@ -218,7 +219,7 @@ class SpatialTransformation(nn.Module):
 
 
 class VoxelMorph2d(nn.Module):
-    def __init__(self, use_gpu=False, in_channels=3):
+    def __init__(self, in_channels=3, use_gpu=False):
         super(VoxelMorph2d, self).__init__()
         self.unet = UNet(in_channels=3, 2)
         self.spatial_transform = SpatialTransformation(use_gpu)
