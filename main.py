@@ -71,7 +71,12 @@ class VoxelMorph():
 
 
 def main():
-    pass
+    '''
+    In this I'll take example of FIRE: Fundus Image Registration Dataset
+    to demostrate the working of the API.
+    '''
+    vm = VoxelMorph((1, 128, 128, 128))
+    DATA_PATH = 'PATH TO THE DATASET'
 
 
 if __name__ == "__main__":
