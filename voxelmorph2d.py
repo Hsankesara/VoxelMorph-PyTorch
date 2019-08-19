@@ -217,10 +217,10 @@ class SpatialTransformation(nn.Module):
         return self.interpolate(moving_image, x_new, y_new)
 
 
-class VoxelMorph(nn.Module):
-    def __init__(self, use_gpu=False):
-        super(VoxelMorph, self).__init__()
-        self.unet = UNet(6, 2)
+class VoxelMorph2d(nn.Module):
+    def __init__(self, use_gpu=False, in_channels=3):
+        super(VoxelMorph2d, self).__init__()
+        self.unet = UNet(in_channels=3, 2)
         self.spatial_transform = SpatialTransformation(use_gpu)
         if use_gpu:
             self.unet = self.unet.cuda()
