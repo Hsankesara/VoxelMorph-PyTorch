@@ -219,9 +219,9 @@ class SpatialTransformation(nn.Module):
 
 
 class VoxelMorph2d(nn.Module):
-    def __init__(self, in_channels=3, use_gpu=False):
+    def __init__(self, in_channels, use_gpu=False):
         super(VoxelMorph2d, self).__init__()
-        self.unet = UNet(in_channels=3, 2)
+        self.unet = UNet(in_channels, 2)
         self.spatial_transform = SpatialTransformation(use_gpu)
         if use_gpu:
             self.unet = self.unet.cuda()

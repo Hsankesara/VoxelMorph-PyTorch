@@ -26,12 +26,12 @@ class VoxelMorph():
         self.dims = input_dims
         if is_2d:
             self.vm = vm2d
-            self.voxelmorph = vm2d.VoxelMorph2d(input_dims[1], use_gpu)
+            self.voxelmorph = vm2d.VoxelMorph2d(input_dims[0] * 2, use_gpu)
         else:
             self.vm = vm3d
-            self.voxelmorph = vm3d.VoxelMorph3d(input_dims[1], use_gpu)
+            self.voxelmorph = vm3d.VoxelMorph3d(input_dims[0] * 2, use_gpu)
         self.optimizer = optim.SGD(
-            self.voxmorph.parameters(), lr=1e-4, momentum=0.99)
+            self.voxelmorph.parameters(), lr=1e-4, momentum=0.99)
         self.params = {'batch_size': 3,
                        'shuffle': True,
                        'num_workers': 6,
@@ -58,14 +58,14 @@ class VoxelMorph():
         return loss
 
     def train_model(self, batch_moving, batch_fixed, n=9, lamda=0.01, return_metric_score=True):
-        optimizer.zero_grad()
+        self.optimizer.zero_grad()
         batch_fixed, batch_moving = batch_fixed.to(
             self.device), batch_moving.to(self.device)
         registered_image = self.voxelmorph(batch_moving, batch_fixed)
         train_loss = self.calculate_loss(
             registered_image, batch_fixed, n, lamda)
         train_loss.backward()
-        optimizer.step()
+        self.optimizer.step()
         if return_metric_score:
             train_dice_score = self.vm.dice_score(
                 registered_image, batch_fixed)
@@ -99,9 +99,9 @@ class Dataset(data.Dataset):
 
         # Load data and get label
         fixed_image = torch.Tensor(
-            resize(io.imread('../input/fire/Images/' + ID + '_1.jpg'), (1024, 1024, 3)))
+            resize(io.imread('./fire-fundus-image-registration-dataset/' + ID + '_1.jpg'), (256, 256, 3)))
         moving_image = torch.Tensor(
-            resize(io.imread('../input/fire/Images/' + ID + '_2.jpg'), (1024, 1024, 3)))
+            resize(io.imread('./fire-fundus-image-registration-dataset/' + ID + '_2.jpg'), (256, 256, 3)))
         return fixed_image, moving_image
 
 
@@ -110,17 +110,17 @@ def main():
     In this I'll take example of FIRE: Fundus Image Registration Dataset
     to demostrate the working of the API.
     '''
-    vm = VoxelMorph((1, 128, 128, 128))
+    vm = VoxelMorph((3, 256, 256), is_2d=True)
     DATA_PATH = './fire-fundus-image-registration-dataset/'
-    params = {'batch_size': 3,
+    params = {'batch_size': 1,
               'shuffle': True,
               'num_workers': 6,
               'worker_init_fn': np.random.seed(42)
               }
 
-    max_epochs = 50
+    max_epochs = 2
     filename = list(set([x.split('_')[0]
-                         for x in os.listdir('../input/fire/Images/')]))
+                         for x in os.listdir('./fire-fundus-image-registration-dataset/')]))
     partition = {}
     partition['train'], partition['validation'] = train_test_split(
         filename, test_size=0.33, random_state=42)
@@ -131,6 +131,7 @@ def main():
 
     validation_set = Dataset(partition['validation'])
     validation_generator = data.DataLoader(validation_set, **params)
+
     # Loop over epochs
     for epoch in range(max_epochs):
         start_time = time.time()
