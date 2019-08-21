@@ -22,6 +22,11 @@ use_gpu = torch.cuda.is_available()
 
 
 class VoxelMorph():
+    """
+    VoxelMorph Class is a higher level interface for both 2D and 3D
+    Voxelmorph classes. It makes training easier and is scalable.
+    """
+
     def __init__(self, input_dims, is_2d=False, use_gpu=False):
         self.dims = input_dims
         if is_2d:
@@ -82,6 +87,11 @@ class VoxelMorph():
 
 
 class Dataset(data.Dataset):
+    """
+    Dataset class for converting the data into batches.
+    The data.Dataset class is a pyTorch class which help
+    in speeding up  this process with effective parallelization
+    """
     'Characterizes a dataset for PyTorch'
 
     def __init__(self, list_IDs):
@@ -110,7 +120,8 @@ def main():
     In this I'll take example of FIRE: Fundus Image Registration Dataset
     to demostrate the working of the API.
     '''
-    vm = VoxelMorph((3, 256, 256), is_2d=True)
+    vm = VoxelMorph(
+        (3, 256, 256), is_2d=True)  # Object of the higher level class
     DATA_PATH = './fire-fundus-image-registration-dataset/'
     params = {'batch_size': 1,
               'shuffle': True,
