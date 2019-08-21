@@ -10,7 +10,7 @@ There are two types of algorithms in image registration. First is Rigid Image Re
 
 DIR methods are employed when RIR cannot performed the desirable task. They can be used to analysis and comparison of medical structures between the scans. Such analysis is used to assess and understand the evolution of brain anatomy over time for individuals with the disease. Deformable registration strategies often involves two steps: an initial affine transformation for global alignment, followed by a much slower deformable transformation with more degrees of freedom. We concentrate on the latter step, in which we compute a dense, nonlinear correspondence for all pixels.
 
-Since the problem is highly ill-posed and has vast applications hence it became a perfect problem for deep learning algorithms to solve. Many different architectures has been proposed but recently [VoxelMorph](https://arxiv.org/abs/1809.05231) has been proposed which surpassed the current state of the art using very simple idea. Since, VoxelMorph only has Tensorflow implementation, I've decided to program an unooficial PyTorch implementation and also provided an API so that it will be easy to use.
+Since the problem is highly ill-posed and has vast applications hence it became a perfect problem for deep learning algorithms to solve. Many different architectures has been proposed but recently [VoxelMorph](https://arxiv.org/abs/1809.05231) has been proposed which surpassed the prior state of the art. Since, VoxelMorph only has Tensorflow implementation, I've decided to program an unooficial PyTorch implementation and also provided an API so that it will be easy to use.
 
 ## How to use
 
