@@ -92,6 +92,14 @@ class Dataset(data.Dataset):
 
 ```
 
+## Resources
+
+1. [Know more about image registration](https://www.sciencedirect.com/topics/neuroscience/image-registration)
+2. [Approaches to Registering Images](https://www.mathworks.com/help/images/approaches-to-registering-images.html)
+3. [QuickSilver: A fast deformable image registration technique](https://arxiv.org/pdf/1703.10908.pdf)
+4. [VoxelMorph](https://arxiv.org/abs/1809.05231)
+5. [Spatial Transformer Networks](https://arxiv.org/pdf/1506.02025.pdf)
+
 ## Author
 
 **[Heet Sankesara](https://github.com/Hsankesara)**
